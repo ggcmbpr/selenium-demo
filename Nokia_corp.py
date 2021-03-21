@@ -12,14 +12,15 @@ from selenium.webdriver.common.keys import Keys
 class TestData():
     CHROME_EXECUTABLE_PATH="/opt/anaconda3/bin/chromedriver"
     BASE_URL = "https://www.google.com"
-    SEARCH_TERM = "Nokia Corporation"
+    SEARCH_TERM = "Nokia Corporation\n"
 
     NO_RESULTS_TEXT = "No results found."
 
 class Locators():
     # --- Home Page Locators ---
     SEARCH_TEXTBOX=(By.NAME,'q')
-    SEARCH_SUBMIT_BUTTON=(By.XPATH, "//*[@id='tsf']/div[1]/div[1]/div[2]/button/div/span/svg") #-->  需要加一个function 叫 return,因为我们这个地方只需要回车
+    # No need to hit submit search button, bucase '\n' at end of SEARCH_TERM meaning hit ENTER button
+#    SEARCH_SUBMIT_BUTTON=(By.XPATH, "//*[@id='tsf']/div[1]/div[1]/div[2]/button/div/span/svg")
 
     # --- Search Results Page Locators ---
     SEARCH_RESULT_LINK=(By.XPATH, "(//div[@class='sg-col-inner']//img[contains(@data-image-latency,'s-product-image')])[2]")
@@ -87,7 +88,7 @@ class HomePage(BasePage):
     def search(self):
         self.driver.find_element(*Locators.SEARCH_TEXTBOX).clear()
         self.enter_text(Locators.SEARCH_TEXTBOX, TestData.SEARCH_TERM)
-        self.click(Locators.SEARCH_SUBMIT_BUTTON)
+#        self.click(Locators.SEARCH_SUBMIT_BUTTON)
 
 class SearchResultsPage(BasePage):
     """Search Results Page of Amazon India"""
