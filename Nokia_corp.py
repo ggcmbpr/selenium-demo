@@ -31,6 +31,8 @@ class Locators():
     # No need to hit submit search button, bucase '\n' at end of SEARCH_TERM meaning hit ENTER button
 #    SEARCH_SUBMIT_BUTTON=(By.XPATH, "//*[@id='tsf']/div[1]/div[1]/div[2]/button/div/span/svg")
 
+    # First result link from google
+    FIRSTR_RESULT_LINK = (By.XPATH, "//div[@id='search']")
     # --- Search Results Page Locators ---
     SEARCH_RESULT_LINK=(By.XPATH, "(//div[@class='sg-col-inner']//img[contains(@data-image-latency,'s-product-image')])[2]")
 
@@ -62,8 +64,6 @@ class BasePage():
     # this function performs click on web element whose locator is passed to it.
     def click(self, by_locator):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).click()
-        #####
-		WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).click()
 
     # this function asserts comparison of a web element's text with passed in text.
     def assert_element_text(self, by_locator, element_text):
@@ -73,7 +73,6 @@ class BasePage():
     # this function performs text entry of the passed in text, in a web element whose locator is passed to it.
     def enter_text(self, by_locator, text):
         return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
-        try
 
     # this function checks if the web element whose locator has been passed to it, is enabled or not and returns
     # web element if it is enabled.
@@ -103,46 +102,46 @@ class HomePage(BasePage):
     def fetchData(self):
         ####
         self.driver.find_element()
-		#At COmpany page, retrieve metrics
-		at_a_glance_key = self.driver.find_elements(By.CLASS_NAME, 'nc-4') and self.driver.find_elements(By.TAG_NAME, 'p')
-		at_a_glance_value = self.driver.find_elements(By.CLASS_NAME, 'nc-4') and self.driver.find_elements(By.TAG_NAME, 'h2')
+        #At COmpany page, retrieve metrics
+        #at_a_glance_key = self.driver.find_elements(By.CLASS_NAME, 'nc-4') and self.driver.find_elements(By.TAG_NAME, 'p')
+        #at_a_glance_value = self.driver.find_elements(By.CLASS_NAME, 'nc-4') and self.driver.find_elements(By.TAG_NAME, 'h2')
 
-		#Create list and dictionary for search
-		key =[]
-		value = []
-		i = 7
+        #Create list and dictionary for search
+        #key =[]
+        #value = []
+        #i = 7
 
-		while (i < 13):
-			key.append(at_a_glance_key[i].text)
-			i+=1
-
-
-		j = 3
-		while (j<9):
-			value.append(at_a_glance_value[j].text)
-			j+=1
+        #while (i < 13):
+        #    key.append(at_a_glance_key[i].text)
+        #    i+=1
 
 
-		metric = {key[i]: value[i] for i in range(len(key))}
-        self.metric = metric
+        #j = 3
+        #while (j<9):
+        #    value.append(at_a_glance_value[j].text)
+        #    j+=1
+
+
+        #metric = {key[i]: value[i] for i in range(len(key))}
+        #self.metric = metric
 
     def searchData(self):
-		while True:
-			metric_retrieved = str(input('Please enter the value you want to check or choose from the list: '))
-			if metric_retrieved in self.metric:
-				print(self.metric[metric_retrieved])
-				retry = str(input('Do you want to try another one? Enter Yes or No please: '))
-				if retry == 'Yes':
-					True
-				else:
-					break
+        while True:
+            metric_retrieved = str(input('Please enter the value you want to check or choose from the list: '))
+            if metric_retrieved in self.metric:
+                print(self.metric[metric_retrieved])
+                retry = str(input('Do you want to try another one? Enter Yes or No please: '))
+                if retry == 'Yes':
+                    True
+                else:
+                    break
 
-			else:
-				retry = str(input('Wrong value. Do you want to try another one? Enter Yes or No please: '))
-				if retry == 'Yes':
-					True
-				else:
-					break
+            else:
+                retry = str(input('Wrong value. Do you want to try another one? Enter Yes or No please: '))
+                if retry == 'Yes':
+                    True
+                else:
+                    break
 
     def Nokia_find_data(self):
         # 2. find search box
@@ -150,6 +149,7 @@ class HomePage(BasePage):
         # 3. input Nokia Corp and hit Enter button
         self.enter_text(Locators.SEARCH_TEXTBOX, TestData.SEARCH_TERM)
         # 4. open 1st link
+        self.click(Locators.FIRSTR_RESULT_LINK)
         # 5. hit About us
         # 6. click company
         # 7. locate metrics and store to dict
@@ -159,10 +159,10 @@ class HomePage(BasePage):
 
 #entry point
 def main():
-    dict_ = HomePage(webdriver.Chrome()).Nokia_find_data()
+    HomePage(webdriver.Chrome()).Nokia_find_data()
     time.sleep(5)
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
 
 
