@@ -71,9 +71,9 @@ class Base():
 
 
     # Retrieve metric under At a glance and convert to dictionary
-    def fetchData(self,by_class, by_tag, by_tag1):
-        at_a_glance_key = self.driver.find_elements(By.CLASS_NAME, by_class) and self.drive.find_elements(By.TAG_NAME, by_tag)
-        at_a_glance_value = self.driver.find_elements(By.CLASS_NAME, by_class) and self.drive.find_elements(By.TAG_NAME, by_tag1)
+    def fetchData(self, by_class, by_tag, by_tag1):
+        at_a_glance_key = self.driver.find_elements(By.CLASS_NAME, by_class) and self.driver.find_elements(By.TAG_NAME, by_tag)
+        at_a_glance_value = self.driver.find_elements(By.CLASS_NAME, by_class) and self.driver.find_elements(By.TAG_NAME, by_tag1)
         list_key = []
         list_value = []
         i = 7
