@@ -72,7 +72,10 @@ class Base():
 
     # Retrieve metric under At a glance and convert to dictionary
     def fetchData(self, by_class, by_tag, by_tag1):
+        time.sleep(2)
+        #locator
         at_a_glance_key = self.driver.find_elements(By.CLASS_NAME, by_class) and self.driver.find_elements(By.TAG_NAME, by_tag)
+        #locator
         at_a_glance_value = self.driver.find_elements(By.CLASS_NAME, by_class) and self.driver.find_elements(By.TAG_NAME, by_tag1)
         list_key = []
         list_value = []
@@ -80,12 +83,17 @@ class Base():
         while (i < 13):
             list_key.append(at_a_glance_key[i].text)
             i += 1
+            if i == len(at_a_glance_key):
+                break
         j = 3
         while (j < 9):
             list_value.append(at_a_glance_value[j].text)
             j += 1
-            metric = {list_key[i]: list_value[i] for i in range(len(list_key))}
-            self.metric = metric
+            if j == len(at_a_glance_value):
+                break
+
+        self.metric = {list_key[i]: list_value[i] for i in range(min(len(list_key), len(list_value)))}
+
      # Serach key and retru value
     def searchData(self):
         while True:
